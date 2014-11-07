@@ -159,7 +159,7 @@ public:
     //to do cleanup search path 
     Node *tmp = this;
     while (tmp->parent && tmp->parent->has_valid_childs == false) {
-        tmp = this->parent;
+        tmp = tmp->parent;
     }
     //std::cout<<tmp->parent->getName()<<std::endl;
     tmp->parent->unset(tmp->getName());
@@ -170,7 +170,7 @@ public:
 
   void print();
 };
-
+ 
 void Node::print()
 {
   std::cout << "Node::"<<this->name<<": " << this->toString() << std::endl;
@@ -234,8 +234,10 @@ int main(void)
   
 
   //testing if exists 
-  if (test["title3"]) {
-  
+  if (test["check"]["if"]["exists"]) {
+    std::cout<<"Check fail\n";    
+  } else {
+    std::cout<<"Check ok\n";
   }
 
   std::vector<Node *> leafs;
