@@ -59,7 +59,7 @@ if (test["check"]["if"]["exisits"]) {
 # What not working
 
  - Comparinsion - you cant do like this
-```
+```cpp
 Node test;
 test["id1"] = "1";
 test["id2"] = "2";
@@ -68,7 +68,7 @@ if (test["id1"] == test["id2"]) {
 }
 ```
  - Cloning/coping
-```
+```cpp
 Node test1;
 Node test2;
 test1["1"] = "1";
