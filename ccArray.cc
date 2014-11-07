@@ -42,6 +42,7 @@ public:
 
   Node() {this->isset = false; this->last_key_id = 0; this->is_array = false;this->parent = NULL; this->has_valid_childs = false;}
   Node(std::string name) {
+    std::cout<<"Adding new node, key: ["<<name<<"]"<<std::endl;
     this->name = name;
     this->isset = false;
     this->last_key_id = 0;
@@ -123,15 +124,20 @@ public:
       if ((*it)->name == key) {
         return *(*it);
       }
-    }
-    if (key == Node::int2string(Node::string2int(key))) {
-          this->last_key_id = Node::string2int(key)+1;
+    } 
+    Node *tmp = NULL;
+    
+    if (key=="" || key == Node::int2string(Node::string2int(key))) {
+          if (key=="") key = Node::int2string(this->last_key_id);
+          tmp = new Node(key);
+          if (Node::string2int(key)>=this->last_key_id) this->last_key_id = Node::string2int(key)+1;
     } else {
       //this is not list, this is map!
      // this->is_array = true;
+        tmp = new Node(key);
     }
 
-    Node *tmp = new Node(key);
+    
     tmp->setParent(this);
     this->childs.push_back(tmp);
     return *tmp;
@@ -140,7 +146,7 @@ public:
   operator std::string () const { 
     return this->toString();
   }
-
+  
   friend std::ostream& operator<<(std::ostream& os, const Node& dt) {
       os<<dt.toString();
       return os;
@@ -189,14 +195,13 @@ std::string build_http_query(Node *root) {
   for (std::vector<Node *>::iterator it = leafs.begin() ; it != leafs.end(); ++it) {
     std::string name = "";
     std::string last_name = (*it)->getName();
-    Node *parent = (*it)->getParent();
-    while (parent->getParent()) {
+    Node *parent = (*it);
+    while (parent->getParent()->getParent()) {
       name = "["+parent->getName()+"]"+name;
       last_name = parent->getName();
       parent= parent->getParent();
     }  
-    last_name += name;
-    query += last_name+"="+(*it)->getValue();
+    query+=parent->getName()+name+"="+(*it)->getValue();
     
     if ((it+1) != leafs.end()) query +="&";
   }
@@ -207,16 +212,16 @@ std::string build_http_query(Node *root) {
 int main(void)
 {
 
-  Node x;
-  x["test"] = "123";
-  x["test2"] = "234";
-  x["test_array"]["test"] = "test";
-   x["test_array"]["test2"]["test3"] = "test";
- std::vector<Node *> tmp = x.getChildrens();
-	  for (std::vector<Node *>::iterator it = tmp.begin() ; it != tmp.end(); ++it) {
-      std::cout<<"["<<(*it)->getName()<<"] = "<<(*it)->getValue()<<std::endl;
-	  }
-
-  std::cout<<build_http_query(&x)<<std::endl;
+  Node *test = new Node();
+  (*test)["test"] = "1";
+  (*test)["test2"]["test3"]="5";
+  (*test)["test3"][""]="6";
+  (*test)["test3"][""]="6";
+  (*test)["test3"][""]="6";
+  (*test)["test3"]["0"]="1";
+  (*test)["test3"][""]="6";
+  (*test)["test3"]["8"]="6";
+  (*test)["test3"][""]="6";
+  std::cout<<build_http_query(test)<<std::endl;
 
 }
