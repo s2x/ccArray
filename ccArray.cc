@@ -42,7 +42,6 @@ public:
 
   Node() {this->isset = false; this->last_key_id = 0; this->is_array = false;this->parent = NULL; this->has_valid_childs = false;}
   Node(std::string name) {
-    std::cout<<"Adding new node, key: ["<<name<<"]"<<std::endl;
     this->name = name;
     this->isset = false;
     this->last_key_id = 0;
@@ -58,10 +57,12 @@ public:
   }
 
   void unset(std::string key) {
-	  for (std::vector<Node *>::iterator it = childs.begin() ; it != childs.end(); ++it) {
-      if ((*it)->getName() == key)  {
-         childs.erase(it);
-      }
+	  for (std::vector<Node *>::iterator it = childs.begin() ; it != childs.end(); ) {
+          if ((*it)->getName() == key)  {
+             it = childs.erase(it);      
+          } else {
+            it++;
+          }
 	  }
   }
 
@@ -104,10 +105,12 @@ public:
     this->has_valid_childs = false;
     this->value = value;
 
-    if (this->parent) {
-      if (this->parent->childs.size()>0) {
-        this->parent->has_valid_childs = true;
-      }
+    Node *tmp = this->parent;
+    while (tmp) {
+        if (tmp->childs.size()>0) {
+            tmp->has_valid_childs = true;
+        }
+        tmp = tmp->getParent();
     }
     return *this;
   }
@@ -136,7 +139,6 @@ public:
      // this->is_array = true;
         tmp = new Node(key);
     }
-
     
     tmp->setParent(this);
     this->childs.push_back(tmp);
@@ -159,7 +161,8 @@ public:
     while (tmp->parent && tmp->parent->has_valid_childs == false) {
         tmp = this->parent;
     }
-    this->parent->unset(tmp->getName());
+    //std::cout<<tmp->parent->getName()<<std::endl;
+    tmp->parent->unset(tmp->getName());
     
     return 0;
     //return isset==true ? this : 0;
@@ -178,10 +181,12 @@ void node_get_leafs(Node *root, std::vector<Node *> *leafs) {
   if (root->hasChildrens()) {
     std::vector<Node *> tmp = root->getChildrens();
 	  for (std::vector<Node *>::iterator it = tmp.begin() ; it != tmp.end(); ++it) {
+      
       node_get_leafs((*it), leafs);
 	  }
 
   } else {  
+   
     leafs->push_back(root);
   }
 }
@@ -212,16 +217,38 @@ std::string build_http_query(Node *root) {
 int main(void)
 {
 
-  Node *test = new Node();
-  (*test)["test"] = "1";
-  (*test)["test2"]["test3"]="5";
-  (*test)["test3"][""]="6";
-  (*test)["test3"][""]="6";
-  (*test)["test3"][""]="6";
-  (*test)["test3"]["0"]="1";
-  (*test)["test3"][""]="6";
-  (*test)["test3"]["8"]="6";
-  (*test)["test3"][""]="6";
-  std::cout<<build_http_query(test)<<std::endl;
+  Node test;
+  test["id"] = "1";
+  test["title"] = "test titile";  
+  test["book"]["1"]["name"] = "1";
+  test["book"]["1"]["author"] = "John Smith";   
+
+  //autoinc 
+  test["autoinc"][""] = "0";
+  test["autoinc"][""] = "1";
+  test["autoinc"][""] = "2";
+  test["autoinc"][""] = "3";
+  test["autoinc"]["8"] = "8";
+  test["autoinc"]["abc"] = "abc";
+  test["autoinc"][""] = "9";
+  
+
+  //testing if exists 
+  if (test["title3"]) {
+  
+  }
+
+  std::vector<Node *> leafs;
+  node_get_leafs(&test, &leafs);
+  for (std::vector<Node *>::iterator it = leafs.begin() ; it != leafs.end(); ++it) {
+    Node *parent = (*it);
+    std::string name = "";
+    while (parent->getParent()) {
+        name = parent->getName()+name;
+        parent = parent->getParent();
+        if (parent->getParent()) name = "."+name;
+    }
+    std::cout<<name<<"="<<(*it)->getValue()<<std::endl;
+  }
 
 }
