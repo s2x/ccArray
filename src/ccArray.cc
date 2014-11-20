@@ -349,15 +349,12 @@ int main(void) {
 	test["autoinc"]["abc"] = "abc";
 	test["autoinc"][""] = "9";
 
-	Node test1, test2;
-	test1["id"] = "test2";
-	test1["name"] = "test2";
-	test1["name"]["bla"] = "test2";
-	test2["id"] = "test2";
-	test2["name"] = "test2";
-	test2["name"]["bla"] = "test2";
+	Node test1;
+	test1["1"]["Name"] = "2";
+	test1["2"]["Name"] = "2";
 
-	if (test1 == test2) {
+
+	if (test1["1"] == test1["2"]) {
 		std::cout << "Test operator == true" << std::endl;
 	} else {
 		std::cout << "Test operator == false" << std::endl;
