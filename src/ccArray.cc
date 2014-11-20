@@ -17,15 +17,29 @@ private:
 	}
 
 public:
+	static const int TYPE_NOT_SET = 0;
+	static const int TYPE_VALUE = 1;
+	static const int TYPE_ARRAY = 2;
+	static const int TYPE_LIST = 3;
+
 	static int string2int(std::string value) {
 		int tmp;
 		std::istringstream(value) >> tmp;
 		return tmp;
 	}
+
+	/**
+	 * Return name o this node
+	 */
 	std::string getName() {
 		return this->name;
 	}
 
+	/**
+	 * Return value of this node as string
+	 * If array or list return "ARRAY"
+	 * see toString function
+	 */
 	std::string getValue() {
 		return this->toString();
 	}
@@ -35,10 +49,6 @@ public:
 		sprintf(buffer, format.c_str(), value);
 		return buffer;
 	}
-	static const int TYPE_NOT_SET = 0;
-	static const int TYPE_VALUE = 1;
-	static const int TYPE_ARRAY = 2;
-	static const int TYPE_LIST = 3;
 
 	Node() {
 		this->isset = false;
