@@ -56,16 +56,17 @@ if (test["check"]["if"]["exisits"]) {
 }
 ```
 
-# What not working
-
- - Comparinsion - you cant do like this
+## Comparison of nodes
 ```cpp
 Node test;
-test["id1"] = "1";
-test["id2"] = "2";
-if (test["id1"] == test["id2"]) {
+test["1"]["Name"] = "2";
+test["2"]["Name"] = "2";
+if (test["1"] == test["2"]) {
   //this wont work
 }
+
+# What not working
+
 ```
  - Cloning/coping
 ```cpp
