@@ -81,6 +81,7 @@ public:
 	 * unset one child
 	 */
 	void unset(std::string key) {
+		//find key and delete
 		for (std::vector<Node *>::iterator it = childs.begin();
 				it != childs.end();) {
 			if ((*it)->getName() == key) {
@@ -91,15 +92,25 @@ public:
 		}
 	}
 
+	/**
+	 * Retrun all childrens
+	 */
 	std::vector<Node *> getChildrens() {
 		return this->childs;
 	}
 
+	/**
+	 * Get parent node
+	 * Return null if root
+	 */
 	Node *getParent() {
 		return this->parent;
 
 	}
 
+	/**
+	 * Get node type
+	 */
 	int getType() const {
 		if (this->childs.size() > 0 && this->has_valid_childs) {
 			if (this->is_array)
@@ -111,11 +122,18 @@ public:
 		return TYPE_NOT_SET;
 	}
 
+	/**
+	 * != operator overload
+	 */
 	bool operator!=(Node &b) {
 		return (*this == b) ? false : true;
 	}
 
+	/**
+	 * == operator overload
+	 */
 	bool operator==(Node &b) {
+		//test if type is equal
 		if (this->getType() != b.getType())
 			return false;
 
@@ -124,19 +142,27 @@ public:
 			return true;
 			break;
 		case TYPE_VALUE:
+			//test only the value
 			return (this->value == b.value) ? true : false;
 			break;
 		case TYPE_ARRAY:
 		case TYPE_LIST:
-			if (this->childs.size() != b.childs.size())
+			// check if size is the same
+			if (this->childs.size() != b.childs.size()) {
 				return false;
+			}
 
+			//test childs if equal
 			for (std::vector<Node *>::iterator it = childs.begin();
 					it != childs.end(); it++) {
 
-				if (!b[(*it)->getName()])
+				//check if key exists
+				if (!b[(*it)->getName()]) {
 					return false;
-				if (!(b[(*it)->getName()] == (**it)))
+				}
+
+				//check if nodes are equal, recurency
+				if ((b[(*it)->getName()] != (**it)))
 					return false;
 			}
 
@@ -146,6 +172,10 @@ public:
 		return false;
 	}
 
+	/**
+	 * Return as string
+	 *
+	 */
 	std::string toString() const {
 		switch (this->getType()) {
 		case TYPE_NOT_SET:
@@ -164,19 +194,28 @@ public:
 		return "";
 	}
 
+	/**
+	 * check if node has valid childrens
+	 */
 	bool hasChildrens() {
 		return this->has_valid_childs;
 	}
 
+	/**
+	 * Value assign
+	 */
 	Node& operator=(std::string value) {
+		//cleanup some data
 		this->isset = true;
 		this->childs.clear();
 		this->is_array = false;
 		this->has_valid_childs = false;
 		this->value = value;
 
+		//update parent nodes
 		Node *tmp = this->parent;
 		while (tmp) {
+			tmp->isset=true;
 			if (tmp->childs.size() > 0) {
 				tmp->has_valid_childs = true;
 			}
@@ -185,6 +224,9 @@ public:
 		return *this;
 	}
 
+	/**
+	 * Append node
+	 */
 	Node& append() {
 		Node *tmp = new Node(Node::int2string(last_key_id));
 		this->childs.push_back(tmp);
@@ -247,7 +289,7 @@ public:
 
 void Node::print() {
 	std::cout << "Node::" << this->name << ": " << this->toString()
-			<< std::endl;
+			<<", Type: " <<this->getType()<<std::endl;
 }
 
 void node_get_leafs(Node *root, std::vector<Node *> *leafs) {
@@ -310,10 +352,10 @@ int main(void) {
 	Node test1, test2;
 	test1["id"] = "test2";
 	test1["name"] = "test2";
-	test1["deep"]["bla"] = "test2";
+	test1["name"]["bla"] = "test2";
 	test2["id"] = "test2";
 	test2["name"] = "test2";
-	test2["deep"]["bla"] = "test2";
+	test2["name"]["bla"] = "test2";
 
 	if (test1 == test2) {
 		std::cout << "Test operator == true" << std::endl;
