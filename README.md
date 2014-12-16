@@ -66,9 +66,7 @@ if (test["1"] == test["2"]) {
 }
 ```
 
-## What not working
-
- - Cloning/coping
+## Cloning/coping
 ```cpp
 Node test1;
 Node test2;
