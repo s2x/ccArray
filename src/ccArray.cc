@@ -129,6 +129,39 @@ public:
 		return (*this == b) ? false : true;
 	}
 
+	Node &operator=(Node &b) {
+
+		//do not copy self
+		if (this == &b)
+        		return *this;
+
+		//copy some settings
+		this->isset = b.isset;
+		this->last_key_id = b.last_key_id;
+		this->is_array = b.is_array;
+		this->has_valid_childs = b.has_valid_childs;
+		this->name = b.name;
+		this->value = b.value;
+
+		//clear childs
+		this->childs.clear();
+
+		//copy all childs
+		if (b.getType() == TYPE_ARRAY || b.getType() == TYPE_LIST) {
+			for (std::vector<Node *>::iterator it = b.childs.begin();
+					it != b.childs.end(); it++) {
+					Node *tmp = new Node();
+					*tmp = (**it);
+					tmp->setParent(this);
+					this->childs.push_back(tmp);
+			}
+			//force settings
+			this->has_valid_childs = b.has_valid_childs;
+			this->is_array = b.is_array;
+		}
+		return *this;
+	}
+
 	/**
 	 * == operator overload
 	 */
@@ -200,6 +233,8 @@ public:
 	bool hasChildrens() {
 		return this->has_valid_childs;
 	}
+
+
 
 	/**
 	 * Value assign
@@ -277,11 +312,9 @@ public:
 		while (tmp->parent && tmp->parent->has_valid_childs == false) {
 			tmp = tmp->parent;
 		}
-		//std::cout<<tmp->parent->getName()<<std::endl;
 		tmp->parent->unset(tmp->getName());
 
 		return 0;
-		//return isset==true ? this : 0;
 	}
 
 	void print();
@@ -352,6 +385,8 @@ int main(void) {
 	Node test1;
 	test1["1"]["Name"] = "2";
 	test1["2"]["Name"] = "2";
+	Node test2;
+	test2 = test1;
 
 
 	if (test1["1"] == test1["2"]) {
@@ -368,7 +403,23 @@ int main(void) {
 	}
 
 	std::vector<Node *> leafs;
-	node_get_leafs(&test, &leafs);
+	node_get_leafs(&test1, &leafs);
+	for (std::vector<Node *>::iterator it = leafs.begin(); it != leafs.end();
+			++it) {
+		Node *parent = (*it);
+		std::string name = "";
+		while (parent->getParent()) {
+			name = parent->getName() + name;
+			parent = parent->getParent();
+			if (parent->getParent())
+				name = "." + name;
+		}
+		std::cout << name << "=" << (*it)->getValue() << std::endl;
+	}
+
+	std::cout<<"Using copy!"<<std::endl;
+	leafs.clear();
+	node_get_leafs(&test2, &leafs);
 	for (std::vector<Node *>::iterator it = leafs.begin(); it != leafs.end();
 			++it) {
 		Node *parent = (*it);
