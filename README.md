@@ -62,17 +62,16 @@ Node test;
 test["1"]["Name"] = "2";
 test["2"]["Name"] = "2";
 if (test["1"] == test["2"]) {
-  //this wont work
+  //this code if node equal
 }
 ```
 
-# What not working
+## What not working
 
  - Cloning/coping
 ```cpp
 Node test1;
 Node test2;
 test1["1"] = "1";
-//this wont work
 test2 = test1
 ```
