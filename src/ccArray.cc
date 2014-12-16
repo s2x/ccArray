@@ -66,6 +66,32 @@ public:
 		this->has_valid_childs = false;
 	}
 
+	Node(Node &b) {
+		this->isset = b.isset;
+		this->last_key_id = b.last_key_id;
+		this->is_array = b.is_array;
+		this->has_valid_childs = b.has_valid_childs;
+		this->name = b.name;
+		this->value = b.value;
+
+		//clear childs
+		this->childs.clear();
+
+		//copy all childs
+		if (b.getType() == TYPE_ARRAY || b.getType() == TYPE_LIST) {
+			for (std::vector<Node *>::iterator it = b.childs.begin();
+					it != b.childs.end(); it++) {
+					Node *tmp = new Node();
+					*tmp = (**it);
+					tmp->setParent(this);
+					this->childs.push_back(tmp);
+			}
+			//force settings
+			this->has_valid_childs = b.has_valid_childs;
+			this->is_array = b.is_array;
+		}
+	}
+
 	/**
 	 * Destructor
 	 */
@@ -385,8 +411,7 @@ int main(void) {
 	Node test1;
 	test1["1"]["Name"] = "2";
 	test1["2"]["Name"] = "2";
-	Node test2;
-	test2 = test1;
+	Node test2 = test1;
 
 
 	if (test1["1"] == test1["2"]) {
