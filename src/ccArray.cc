@@ -107,18 +107,17 @@ ccArray *ccArray::getParent() {
 
 }
 
-
 /**
  * != operator overload
  */
-bool ccArray::operator!=(const ccArray &b) {
+bool ccArray::operator!=(const ccArray &b) const{
 	return (*this == b) ? false : true;
 }
 
 /**
  * == operator overload
  */
-bool ccArray::operator==(const ccArray &b) {
+bool ccArray::operator==(const ccArray &b) const{
 	//test if type is equal
 	if (this->getType() != b.getType())
 		return false;
@@ -138,19 +137,14 @@ bool ccArray::operator==(const ccArray &b) {
 			return false;
 		}
 
-		//test childs if equal
-		for (std::vector<ccArray *>::iterator it = childs.begin();
+		//test child's if equal
+		for (std::vector<ccArray *>::const_iterator it = childs.begin();
 				it != childs.end(); it++) {
 			//check if key exists
 			if (!(b._hasKey((*it)->getName()))) return false;
-//			if (!b[(*it)->getName()]) {
-//				return false;
-//			}
 
-//			//check if nodes are equal, recurency
+			//check if nodes are equal, recurrence
 			if (b._getKey((*it)->getName())!= (**it)) return false;
-//			if ((b[(*it)->getName()] != (**it)))
-//				return false;
 		}
 
 		return true;
@@ -247,16 +241,12 @@ ccArray::operator std::string() const {
 }
 
 bool ccArray::_hasKey(std::string key) const {
-	for (std::vector<ccArray *>::const_iterator it = this->childs.begin();
-			it != this->childs.end(); ++it) {
-		if ((*it)->name == key) {
-			return true;
-		}
-	}
+	if (this->_getKey(key)!=NULL) return true;
 	return false;
 }
 
 ccArray *ccArray::_getKey(std::string key) const {
+	// iterate over all keys
 	for (std::vector<ccArray *>::const_iterator it = this->childs.begin();
 			it != this->childs.end(); ++it) {
 		if ((*it)->name == key) {

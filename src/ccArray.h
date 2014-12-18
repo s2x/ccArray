@@ -59,9 +59,13 @@ private:
 
 
 	void _setParent(ccArray *parent);
+	//internal function for checking if key exists
 	bool _hasKey(std::string key) const;
 	ccArray *_getKey(std::string key) const;
 
+	/**
+	 * Internal functions for key autoincrement
+	 */
 	static int _string2int(std::string value);
 	static std::string _int2string(int value, std::string format = "%d");
 public:
@@ -111,8 +115,8 @@ public:
 	/**
 	 * operators overload
 	 */
-	bool operator!=(const ccArray &b);
-	bool operator==(const ccArray &b);
+	bool operator!=(const ccArray &b) const;
+	bool operator==(const ccArray &b) const;
 	ccArray &operator=(const ccArray &b);
 	ccArray &operator=(std::string value);
 	ccArray &operator[](std::string key);
