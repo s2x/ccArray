@@ -59,6 +59,8 @@ private:
 
 
 	void _setParent(ccArray *parent);
+	bool _hasKey(std::string key) const;
+	ccArray *_getKey(std::string key) const;
 
 	static int _string2int(std::string value);
 	static std::string _int2string(int value, std::string format = "%d");
@@ -78,7 +80,7 @@ public:
 	ccArray();
 	ccArray(std::string name);
 	//Copy constructor
-	ccArray(ccArray &b);
+	ccArray(const ccArray &b);
 
 	/**
 	 * Custom Destructor
@@ -109,11 +111,11 @@ public:
 	/**
 	 * operators overload
 	 */
-	bool operator!=(ccArray &b);
-	bool operator==(ccArray &b);
-	ccArray &operator=(ccArray &b);
+	bool operator!=(const ccArray &b);
+	bool operator==(const ccArray &b);
+	ccArray &operator=(const ccArray &b);
 	ccArray &operator=(std::string value);
-	ccArray& operator[](std::string key);
+	ccArray &operator[](std::string key);
 	operator std::string() const;
 	operator void*();
 	friend std::ostream& operator<<(std::ostream& os, const ccArray& dt);

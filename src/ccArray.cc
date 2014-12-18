@@ -42,7 +42,7 @@ ccArray::ccArray(std::string name) {
 	this->has_valid_childs = false;
 }
 
-ccArray::ccArray(ccArray &b) {
+ccArray::ccArray(const ccArray &b) {
 	this->parent = NULL;
 	this->isset = b.isset;
 	this->last_key_id = b.last_key_id;
@@ -53,10 +53,9 @@ ccArray::ccArray(ccArray &b) {
 
 	//clear childs
 	this->childs.clear();
-
 	//copy all childs
 	if (b.getType() == TYPE_ARRAY || b.getType() == TYPE_LIST) {
-		for (std::vector<ccArray *>::iterator it = b.childs.begin();
+		for (std::vector<ccArray *>::const_iterator it = b.childs.begin();
 				it != b.childs.end(); it++) {
 				ccArray *tmp = new ccArray();
 				*tmp = (**it);
@@ -112,14 +111,14 @@ ccArray *ccArray::getParent() {
 /**
  * != operator overload
  */
-bool ccArray::operator!=(ccArray &b) {
+bool ccArray::operator!=(const ccArray &b) {
 	return (*this == b) ? false : true;
 }
 
 /**
  * == operator overload
  */
-bool ccArray::operator==(ccArray &b) {
+bool ccArray::operator==(const ccArray &b) {
 	//test if type is equal
 	if (this->getType() != b.getType())
 		return false;
@@ -142,15 +141,16 @@ bool ccArray::operator==(ccArray &b) {
 		//test childs if equal
 		for (std::vector<ccArray *>::iterator it = childs.begin();
 				it != childs.end(); it++) {
-
 			//check if key exists
-			if (!b[(*it)->getName()]) {
-				return false;
-			}
+			if (!(b._hasKey((*it)->getName()))) return false;
+//			if (!b[(*it)->getName()]) {
+//				return false;
+//			}
 
-			//check if nodes are equal, recurency
-			if ((b[(*it)->getName()] != (**it)))
-				return false;
+//			//check if nodes are equal, recurency
+			if (b._getKey((*it)->getName())!= (**it)) return false;
+//			if ((b[(*it)->getName()] != (**it)))
+//				return false;
 		}
 
 		return true;
@@ -159,7 +159,7 @@ bool ccArray::operator==(ccArray &b) {
 	return false;
 }
 
-ccArray &ccArray::operator=(ccArray &b) {
+ccArray &ccArray::operator=(const ccArray &b) {
 
 	//do not copy self
 	if (this == &b)
@@ -178,7 +178,7 @@ ccArray &ccArray::operator=(ccArray &b) {
 
 	//copy all childs
 	if (b.getType() == TYPE_ARRAY || b.getType() == TYPE_LIST) {
-		for (std::vector<ccArray *>::iterator it = b.childs.begin();
+		for (std::vector<ccArray *>::const_iterator it = b.childs.begin();
 				it != b.childs.end(); it++) {
 				ccArray *tmp = new ccArray();
 				*tmp = (**it);
@@ -244,6 +244,26 @@ ccArray& ccArray::operator[](std::string key) {
 
 ccArray::operator std::string() const {
 	return this->toString();
+}
+
+bool ccArray::_hasKey(std::string key) const {
+	for (std::vector<ccArray *>::const_iterator it = this->childs.begin();
+			it != this->childs.end(); ++it) {
+		if ((*it)->name == key) {
+			return true;
+		}
+	}
+	return false;
+}
+
+ccArray *ccArray::_getKey(std::string key) const {
+	for (std::vector<ccArray *>::const_iterator it = this->childs.begin();
+			it != this->childs.end(); ++it) {
+		if ((*it)->name == key) {
+			return (*it);
+		}
+	}
+	return NULL;
 }
 
 std::ostream& operator<<(std::ostream& os, const ccArray& dt) {

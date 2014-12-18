@@ -42,6 +42,13 @@ std::string build_http_query(ccArray *root) {
 	return query;
 }
 
+ccArray functReturn() {
+	ccArray test;
+	test["function"] = "ok";
+
+	return test;
+}
+
 int main(void) {
 
 	ccArray test;
@@ -108,6 +115,25 @@ int main(void) {
 		}
 		std::cout << name << "=" << (*it)->getValue() << std::endl;
 	}
+
+	std::cout<<"Function return test: "<<std::endl;
+	leafs.clear();
+	ccArray funct_ret;
+	funct_ret = functReturn();
+	node_get_leafs(&funct_ret, &leafs);
+	for (std::vector<ccArray *>::iterator it = leafs.begin(); it != leafs.end();
+			++it) {
+		ccArray *parent = (*it);
+		std::string name = "";
+		while (parent->getParent()) {
+			name = parent->getName() + name;
+			parent = parent->getParent();
+			if (parent->getParent())
+				name = "." + name;
+		}
+		std::cout << name << "=" << (*it)->getValue() << std::endl;
+	}
+
 	return 0;
 }
 
