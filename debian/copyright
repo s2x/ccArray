@@ -1,0 +1,12 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: libccarray
+Upstream-Contact: Piotr Hałas <piotr@halas.net.pl>
+Source: https://github.com/s2x/ccArray
+
+Files: *
+Copyright: 2016 Piotr Hałas <piotr@halas.net.pl>
+License: MIT
+
+Files: debian/*
+Copyright: 2016 Piotr Hałas <piotr@halas.net.pl>
+License: MIT

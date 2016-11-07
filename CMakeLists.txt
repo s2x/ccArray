@@ -10,7 +10,7 @@ add_library(ccArray ${SOURCE_FILES})
 add_executable(examples_simple examples/simple.cpp)
 target_link_libraries(examples_simple ccArray)
 
-find_package(GTest REQUIRED)
+find_package(GTest)
 if (GTEST_FOUND)
     enable_testing()
     include_directories(${GTEST_INCLUDE_DIRS})

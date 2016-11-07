@@ -1,0 +1,7 @@
+/libcrazygoat/
+/libcrazygoat-dev/
+/tmp/
+/debhelper-build-stamp
+/files
+*.debhelper.log
+*.substvars
