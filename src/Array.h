@@ -28,12 +28,6 @@ namespace ccArray {
 
         bool keyIsInt(std::string key);
 
-        /**
-         *
-         * unset one child
-         */
-        void unset(std::string key);
-
     public:
         static const int TYPE_NOT_SET;
         static const int TYPE_VALUE;
@@ -115,6 +109,11 @@ namespace ccArray {
          *
          */
         std::string toString() const;
+
+        /**
+         * unset one child
+         */
+        void unset(std::string key);
 
         /**
          * check if node has valid childrens

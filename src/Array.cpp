@@ -213,7 +213,7 @@ namespace ccArray {
 //    }
 //    tmp->parent->unset(tmp->getName());
 
-        return 0;
+        return nullptr;
     }
 
     bool Array::keyIsInt(std::string key) {
