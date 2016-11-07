@@ -1,0 +1,20 @@
+# Enable C++ support
+language: cpp
+# Compiler selection
+compiler:
+  - gcc
+# Build steps
+before_script:
+  - cppcheck --error-exitcode=1  --enable=warning,performance,portability,style --language=c++ --quiet src/ examples/ test/
+script:
+  - mkdir build
+  - cd build
+  - cmake .. && make
+#  - cd ..
+#  - debuild -b -uc -us
+# Ubuntu 14.04 Trusty support
+sudo: required
+dist: trusty
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libfcgi-dev devscripts debhelper cppcheck
