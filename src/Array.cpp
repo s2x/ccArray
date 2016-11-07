@@ -4,6 +4,12 @@
 
 #include "Array.h"
 namespace ccArray {
+
+    const int Array::TYPE_NOT_SET = 0;
+    const int Array::TYPE_VALUE = 1;
+    const int Array::TYPE_ARRAY = 2;
+    const int Array::TYPE_LIST = 3;
+
     std::string Array::getName() {
         return this->name;
     }
@@ -29,8 +35,6 @@ namespace ccArray {
     }
 
     Array::Array(Array &b) : name(b.name), value(b.value) {
-//    std::cout<<"Copy constructor"<<std::endl;
-
         this->isset = b.isset;
         this->last_key_id = b.last_key_id;
         this->parent = NULL;
@@ -178,6 +182,8 @@ namespace ccArray {
 
         if (this->keyIsInt(key) && std::stoi(key) >= this->last_key_id) {
             this->last_key_id = std::stoi(key) + 1;
+        } else {
+            this->is_array = true;
         }
 
         Array *tmp = new Array(key);
@@ -223,8 +229,6 @@ namespace ccArray {
     }
 
     Array &Array::operator=(Array &b) {
-        //do not copy self
-//    std::cout<<"Assigment oprator"<<std::endl;
         //copy some settings
         this->isset = b.isset;
         this->last_key_id = b.last_key_id;
@@ -250,7 +254,7 @@ namespace ccArray {
     }
 
     Array &Array::operator=(const Array &b) {
-//    std::cout<<"copy Operator"<<std::endl;;
+
         //copy some settings
         this->isset = b.isset;
         this->last_key_id = b.last_key_id;

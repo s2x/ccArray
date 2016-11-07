@@ -15,7 +15,24 @@ TEST(ArraySimpleTests, ValueAssign) {
 }
 
 TEST(ArraySimpleTests, ArrayType) {
+    ccArray::Array test;
+    test["Hello"] = "World";
 
+    test["array"]["nestedKey"] = "nestedValue";
+
+    test["list"][""] = "value1";
+    test["list"][""] = "value2";
+
+    test["array2"][""] = "value1";
+    test["array2"][""] = "value2";
+    test["array2"]["asoc"] = "valueAsoc";
+
+    ASSERT_EQ(ccArray::Array::TYPE_VALUE, test["Hello"].getType()) << "Test hello is value";
+    ASSERT_EQ(ccArray::Array::TYPE_VALUE, test["array"]["nestedKey"].getType()) << "Test test[array][nestedKey] is value";
+
+    ASSERT_EQ(ccArray::Array::TYPE_ARRAY, test["array"].getType()) << "Test test[array] is array";
+    ASSERT_EQ(ccArray::Array::TYPE_ARRAY, test["array2"].getType()) << "Test test[array] is array";
+    ASSERT_EQ(ccArray::Array::TYPE_LIST, test["list"].getType()) << "Test test[list] is list";;
 }
 
     int main(int argc, char **argv) {

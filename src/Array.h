@@ -35,10 +35,10 @@ namespace ccArray {
         void unset(std::string key);
 
     public:
-        static const int TYPE_NOT_SET = 0;
-        static const int TYPE_VALUE = 1;
-        static const int TYPE_ARRAY = 2;
-        static const int TYPE_LIST = 3;
+        static const int TYPE_NOT_SET;
+        static const int TYPE_VALUE;
+        static const int TYPE_ARRAY;
+        static const int TYPE_LIST;
 
         /**
          * Constructors
