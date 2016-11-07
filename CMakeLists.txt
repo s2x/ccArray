@@ -16,4 +16,5 @@ if (GTEST_FOUND)
 
     add_executable(runTests test/simple.cpp)
     target_link_libraries(runTests ${GTEST_LIBRARIES} pthread ccArray)
+    add_test(runTests runTests)
 endif(GTEST_FOUND)

@@ -10,6 +10,7 @@ script:
   - mkdir build
   - cd build
   - cmake .. && make
+  - ctest --verbose
 #  - cd ..
 #  - debuild -b -uc -us
 # Ubuntu 14.04 Trusty support
@@ -17,4 +18,5 @@ sudo: required
 dist: trusty
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y libfcgi-dev devscripts debhelper cppcheck
+  - sudo apt-get install -y libfcgi-dev devscripts debhelper cppcheck libgtest-dev
+  - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
