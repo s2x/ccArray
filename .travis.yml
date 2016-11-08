@@ -1,33 +1,31 @@
-# Enable C++ support
 language: cpp
-# Compiler selection
 compiler:
-  - gcc
-# Build steps
+- gcc
 before_script:
-  - cppcheck --error-exitcode=1  --enable=warning,performance,portability,style --language=c++ --quiet src/ examples/ test/
+- cppcheck --error-exitcode=1  --enable=warning,performance,portability,style --language=c++
+  --quiet src/ examples/ test/
 script:
-  - mkdir build
-  - mkdir build/packages
-  - cd build
-  - cmake .. && make
-  - ctest --verbose
-  - cd ..
-  - debuild -b -uc -us
-  - mv ../*.deb build/
-# Ubuntu 14.04 Trusty support
+- mkdir build
+- mkdir build/packages
+- cd build
+- cmake .. && make
+- ctest --verbose
+- cd ..
+- debuild -b -uc -us
+- mv ../*.deb build/
 sudo: required
 dist: trusty
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y libfcgi-dev devscripts debhelper cppcheck libgtest-dev lcov
-  - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
+- sudo apt-get -qq update
+- sudo apt-get install -y libfcgi-dev devscripts debhelper cppcheck libgtest-dev lcov
+- cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/
+  ; cd -
 deploy:
   token:
-    secure: yGBn5fYP5NWYdHGa3NOJZvhveIZCftg5pCYmxZk2oEX6W4ayzWkWRF1Hy2nyHry4q6TFvZXj83mDYLzZ56J0DsAoqxri9lcHRRUuge5CnL9L8utnn6971A7auFl9PyzQtVosoNUMXq/8WjDd6r6h+fx3OjbYYis8C3YEqLfR1/Y3D0LkvM4Lad/bSg2UlwoxN+wSmlHRYAm6kkgYexoVzPgeG4bP302xen1ODkXjilcAkl3Hlp9ZrS51XLmxVEGpoFIqNLgbFRlAdU+A6T1d2ow6DrNlfi1uTdfNvNf+3lo/6qRMC/5l9CgQLx6Birh/UVYwkv50FaYIQ6DB/XHGzeIL8o3IeILdvm0fqqiEnhLLX8gFDuUHw6LAtVtnIXFEtCcNjKpbCc+dTsCC6kqXIjh8C1WIN5KhZZPkoRFdPqXy+XWLxN1LpVtKzwKjMB+QJAOUG+k5xiXcDsftZpHs/3fgxUXFYLnZeS1twAyDdN2eW/d0wEu+QLLIzMctcus2JiSqyV5HOqoyLkPxaRAiBIevRcPWuhMTjMKzI3jmxB0YQkUERaVcPvgRJ17n/YfR6dAkxsIPhBBlz69/OlArp/PKhA40MPQLIQGRieM/cJEeFKbmHyjb7lp/FbZQ1rNmsAnzDIpwIGoHaterx08j98DkFXEAqsXTqp5efqLPBKQ=
+    secure: dJdoOJPJ0GEZ6zMIONnRCHyxa9beXn0evNgV33bzFxwBwz+1Hgek5dt/xcsXljS0OwxFRIYxuMvh5zPyd9o/sewOpnNhZRvvu83+hs9TDzedZbhkSpBkbeOPBSOWQaP33UmhoUXNqr5ffVutitLP8RnrN+07n/frBnYx+Azmg5OsOPPGUBr4CKmMAmPkecg1hLRzQTXDP1kD+n71ao5tWxkOukaDGQEzlekbioKCGnDZMGA7yn+E3eZtPSjeMJJUE4Aqdw4FiJUQuzFDxLRbNMUitLzqCiv2axKznxtj0qeTxR8nihHg8tAwX7on4sDYq8mKYRwqVwWDSGFKIXl34HzZ2TwfrUTpGkVDo27cUjgsHL2yPnhzX9SrUj8vwkFvM0nPcbmH6fQguInbILPRf96h2mpVgF6H5mHTRMy3cinxVlNmI9vn7Sqs2/GtPSPvnnXTnZNdQisYqhNm4SbmhDZXJegFW1a+35nlJA8wlA6Eyw0gJYkgasb2g0mLZaXaL850kkJWMRw800VENfRm4Hw9Bq6aV1er4A1SM1w+3fSYhbIjTCeNZVYgQwigFgkKOi/lOHJu6hQRMDeTxE0T1Eyv0n3Cp528J7qek4UekGhTo6aN0H4kgf+FWgZckwku2kL8ZYKfG6hNNBmXOoXmU9qioN19xuxFQEzgPkI+qHU=
   provider: packagecloud
-  repository: "stable"
-  username: "crazygoat"
-  dist: "ubuntu/xenial"
+  repository: stable
+  username: crazygoat
+  dist: ubuntu/xenial
   skip_cleanup: true
   local-dir: build
