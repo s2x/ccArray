@@ -1,14 +1,25 @@
 cmake_minimum_required(VERSION 3.2.2)
 project(ccArray)
 
+set(VERSION_MAJOR 0)
+set(VERSION_MINOR 1)
+set(VERSION_PATCH 1)
+set(LIB_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH} )
+
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES src/Array.cpp src/helpers/ArrayHelper.cpp)
-add_library(ccArray ${SOURCE_FILES})
+
+add_library(ccArrayShared SHARED ${SOURCE_FILES})
+add_library(ccArrayStatic STATIC ${SOURCE_FILES})
+set_target_properties(ccArrayShared PROPERTIES OUTPUT_NAME ccarray)
+set_target_properties(ccArrayStatic PROPERTIES OUTPUT_NAME ccarray)
+
+set_target_properties(ccArrayShared PROPERTIES VERSION ${LIB_VERSION} SOVERSION ${VERSION_MAJOR} )
 
 add_executable(examples_simple examples/simple.cpp)
-target_link_libraries(examples_simple ccArray)
+target_link_libraries(examples_simple ccArrayStatic)
 
 find_package(GTest)
 if (GTEST_FOUND)
@@ -27,3 +38,8 @@ if (GTEST_FOUND)
     endif()
 
 endif(GTEST_FOUND)
+
+install(TARGETS ccArrayShared DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS ccArrayStatic DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX} FILES_MATCHING PATTERN "*")
+

@@ -2,7 +2,7 @@
 // Created by piotr on 02.11.16.
 //
 
-#include "Array.h"
+#include "../include/ccArray/Array.h"
 namespace ccArray {
 
     const int Array::TYPE_NOT_SET = 0;

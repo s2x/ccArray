@@ -5,7 +5,7 @@
 #ifndef LIBCRAZYGOAT_ARRAYHELPER_H
 #define LIBCRAZYGOAT_ARRAYHELPER_H
 
-#include "../Array.h"
+#include "Array.h"
 #include <vector>
 
 namespace ccArray {

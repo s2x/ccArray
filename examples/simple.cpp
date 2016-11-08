@@ -2,7 +2,7 @@
 // Created by piotr on 07.11.16.
 //
 
-#include "../src/Array.h"
+#include "../include/ccArray/Array.h"
 
 int main (int argc, char *argv[])
 {

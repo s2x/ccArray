@@ -2,7 +2,7 @@
 // Created by piotr on 05.11.16.
 //
 
-#include "ArrayHelper.h"
+#include "../../include/ccArray/ArrayHelper.h"
 namespace ccArray {
     Array ArrayHelper::setByPath(Array array, std::vector<std::string> path, std::string value) {
         if (path.size() == 0) {

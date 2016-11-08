@@ -6,14 +6,16 @@ Standards-Version: 3.9.5
 Section: libs
 Homepage: https://github.com/s2x/ccArray
 
+Package: libccarray0
+Architecture: any
+Depends: ${misc:Depends}
+Description: C++ implementation on PHP array
+ C++ implementation on PHP array including some basic array functions
+
 Package: libccarray-dev
 Section: libdevel
 Architecture: any
-Depends: libccarray (= ${binary:Version}), ${misc:Depends}
-Description: C++ implementation on PHP array
-
-Package: libccarray
-Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: C++ implementation on PHP array
+ C++ implementation on PHP array including some basic array functions
 

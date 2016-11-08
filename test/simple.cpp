@@ -2,7 +2,7 @@
 // Created by piotr on 07.11.16.
 //
 #include <gtest/gtest.h>
-#include "../src/Array.h"
+#include "../include/ccArray/Array.h"
 
 ccArray::Array getEmptyArray() {
     ccArray::Array ret;
