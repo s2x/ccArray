@@ -1,3 +1,6 @@
 /Debug
 /.idea/
 /build/
+debian/libccarray-dev/
+debian/libccarray0/
+obj-x86_64-linux-gnu/

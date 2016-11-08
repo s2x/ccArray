@@ -1,5 +1,11 @@
+libccarray (0.1.1ubuntu1) xenial; urgency=medium
+
+  * update package version
+
+ -- Piotr Hałas <piotr@halas.net.pl>  Tue, 08 Nov 2016 22:49:04 +0100
+
 libccarray (0.1.1) trusty; urgency=low
 
   * Initial release
 
- -- Piotr Hałas <piotr@halas.net.pl>  Fri, 17 Jul 2015 10:07:41 +0200
+ -- Piotr Hałas <piotr@halas.net.pl>  Tue, 08 Nov 2016 22:17:07 +0100
