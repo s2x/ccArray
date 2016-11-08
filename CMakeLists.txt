@@ -27,7 +27,7 @@ if (GTEST_FOUND)
     include_directories(${GTEST_INCLUDE_DIRS})
 
     add_executable(runTests test/simple.cpp)
-    target_link_libraries(runTests ${GTEST_LIBRARIES} pthread ccArray)
+    target_link_libraries(runTests ${GTEST_LIBRARIES} pthread ccArrayStatic)
     add_test(runTests runTests)
 
     if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
