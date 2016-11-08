@@ -2,14 +2,16 @@ language: cpp
 compiler:
 - gcc
 before_script:
-- cppcheck --error-exitcode=1  --enable=warning,performance,portability,style --language=c++
-  --quiet src/ examples/ test/
+- cppcheck --error-exitcode=1  --enable=warning,performance,portability,style --language=c++ --quiet src/ examples/ test/
 script:
 - mkdir build
 - mkdir build/packages
 - cd build
-- cmake .. && make
+- cmake -DCMAKE_BUILD_TYPE=Coverage .. && make
+- lcov --directory . --zerocounters
 - ctest --verbose
+- lcov --directory . --capture --output-file coverage.info
+- coveralls -r .. -i src -i test
 - cd ..
 - debuild -b -uc -us
 - mv ../*.deb build/
@@ -18,8 +20,8 @@ dist: trusty
 before_install:
 - sudo apt-get -qq update
 - sudo apt-get install -y libfcgi-dev devscripts debhelper cppcheck libgtest-dev lcov
-- cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/
-  ; cd -
+- cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -
+- pip install --user cpp-coveralls
 deploy:
   token:
     secure: dJdoOJPJ0GEZ6zMIONnRCHyxa9beXn0evNgV33bzFxwBwz+1Hgek5dt/xcsXljS0OwxFRIYxuMvh5zPyd9o/sewOpnNhZRvvu83+hs9TDzedZbhkSpBkbeOPBSOWQaP33UmhoUXNqr5ffVutitLP8RnrN+07n/frBnYx+Azmg5OsOPPGUBr4CKmMAmPkecg1hLRzQTXDP1kD+n71ao5tWxkOukaDGQEzlekbioKCGnDZMGA7yn+E3eZtPSjeMJJUE4Aqdw4FiJUQuzFDxLRbNMUitLzqCiv2axKznxtj0qeTxR8nihHg8tAwX7on4sDYq8mKYRwqVwWDSGFKIXl34HzZ2TwfrUTpGkVDo27cUjgsHL2yPnhzX9SrUj8vwkFvM0nPcbmH6fQguInbILPRf96h2mpVgF6H5mHTRMy3cinxVlNmI9vn7Sqs2/GtPSPvnnXTnZNdQisYqhNm4SbmhDZXJegFW1a+35nlJA8wlA6Eyw0gJYkgasb2g0mLZaXaL850kkJWMRw800VENfRm4Hw9Bq6aV1er4A1SM1w+3fSYhbIjTCeNZVYgQwigFgkKOi/lOHJu6hQRMDeTxE0T1Eyv0n3Cp528J7qek4UekGhTo6aN0H4kgf+FWgZckwku2kL8ZYKfG6hNNBmXOoXmU9qioN19xuxFQEzgPkI+qHU=
@@ -29,3 +31,6 @@ deploy:
   dist: ubuntu/xenial
   skip_cleanup: true
   local-dir: build
+env:
+  coveralls:
+    secure: VlwfVcGoI/mIr1BmUnC/fIW6yNHB23ZE+vYPc58vrlI7Iv10JP8b1No303Cy4cMycHXgiupzhfTzzcWYbMaZepQsNwSVRqTYjZWVWcCTI0pD/huoeyH1O1aikcqeXn3bPJKeZI+W1Tx6Lw1ArymMeut1rAjW1jXOHx+VqHlcMqH//wmEWSBl7e/resEpeYr0z2PPaHdoQK78gbmnweV9TRnwOuwFqy7AwmN93Lh/WZomgnk9eNXGFXcppZmR1sOb1jKiDknnegJ93eX9kAtPAVoB7zHlrhEN0bTFuJMMqJDpEywbRfXAZdnOWX7EsFh4EgeIHPkXh9aiJIOgzvYc0b1mR7hCvYg3YdTMz1WIP/zhWUHMXHTDQGTIo2PLc4VRFD5rdcaAKdBoj1/0fssYQRhCu3fDVMclBA9YL9JRWf387zRQrUjGxb4ZB69vzmHEnFWdLJey4dMHgw1/8KQmDoYp89Jf+nZvLUrZfOg4U/+hfnan57pQw5ra6ORILsT3oU061R99R1/RvypTZ09WjO5jumHgdhlQOKir3e4xPx4J83A0e7ekSIMBHja6qWXsi1eSXDPOGn8qGfY6qAYex8H0aNKCTIYQJQYMR/s06BdF1lweh9fhKbQ3KoMUJ+OUQlbuxOKPL8otK3d+LR5hkYL/OEuAb6HY+fRWHTrcm08=
