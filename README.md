@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/s2x/ccArray.svg?branch=master)](https://travis-ci.org/s2x/ccArray)
+[![Coverage Status](https://coveralls.io/repos/github/s2x/ccArray/badge.svg?branch=master)](https://coveralls.io/github/s2x/ccArray?branch=master)
 ccArray
 =======
 
