@@ -10,7 +10,6 @@ script:
 - cmake -DCMAKE_BUILD_TYPE=Coverage .. && make
 - lcov --directory . --zerocounters
 - ctest --verbose
-- lcov --directory . --capture --output-file coverage.info
 - coveralls -r .. -i src -i test
 - cd ..
 - debuild -b -uc -us
@@ -31,6 +30,6 @@ deploy:
   dist: ubuntu/xenial
   skip_cleanup: true
   local-dir: build
-env:
-  coveralls:
-    secure: VlwfVcGoI/mIr1BmUnC/fIW6yNHB23ZE+vYPc58vrlI7Iv10JP8b1No303Cy4cMycHXgiupzhfTzzcWYbMaZepQsNwSVRqTYjZWVWcCTI0pD/huoeyH1O1aikcqeXn3bPJKeZI+W1Tx6Lw1ArymMeut1rAjW1jXOHx+VqHlcMqH//wmEWSBl7e/resEpeYr0z2PPaHdoQK78gbmnweV9TRnwOuwFqy7AwmN93Lh/WZomgnk9eNXGFXcppZmR1sOb1jKiDknnegJ93eX9kAtPAVoB7zHlrhEN0bTFuJMMqJDpEywbRfXAZdnOWX7EsFh4EgeIHPkXh9aiJIOgzvYc0b1mR7hCvYg3YdTMz1WIP/zhWUHMXHTDQGTIo2PLc4VRFD5rdcaAKdBoj1/0fssYQRhCu3fDVMclBA9YL9JRWf387zRQrUjGxb4ZB69vzmHEnFWdLJey4dMHgw1/8KQmDoYp89Jf+nZvLUrZfOg4U/+hfnan57pQw5ra6ORILsT3oU061R99R1/RvypTZ09WjO5jumHgdhlQOKir3e4xPx4J83A0e7ekSIMBHja6qWXsi1eSXDPOGn8qGfY6qAYex8H0aNKCTIYQJQYMR/s06BdF1lweh9fhKbQ3KoMUJ+OUQlbuxOKPL8otK3d+LR5hkYL/OEuAb6HY+fRWHTrcm08=
+#env:
+#  coveralls:
+#    secure: VlwfVcGoI/mIr1BmUnC/fIW6yNHB23ZE+vYPc58vrlI7Iv10JP8b1No303Cy4cMycHXgiupzhfTzzcWYbMaZepQsNwSVRqTYjZWVWcCTI0pD/huoeyH1O1aikcqeXn3bPJKeZI+W1Tx6Lw1ArymMeut1rAjW1jXOHx+VqHlcMqH//wmEWSBl7e/resEpeYr0z2PPaHdoQK78gbmnweV9TRnwOuwFqy7AwmN93Lh/WZomgnk9eNXGFXcppZmR1sOb1jKiDknnegJ93eX9kAtPAVoB7zHlrhEN0bTFuJMMqJDpEywbRfXAZdnOWX7EsFh4EgeIHPkXh9aiJIOgzvYc0b1mR7hCvYg3YdTMz1WIP/zhWUHMXHTDQGTIo2PLc4VRFD5rdcaAKdBoj1/0fssYQRhCu3fDVMclBA9YL9JRWf387zRQrUjGxb4ZB69vzmHEnFWdLJey4dMHgw1/8KQmDoYp89Jf+nZvLUrZfOg4U/+hfnan57pQw5ra6ORILsT3oU061R99R1/RvypTZ09WjO5jumHgdhlQOKir3e4xPx4J83A0e7ekSIMBHja6qWXsi1eSXDPOGn8qGfY6qAYex8H0aNKCTIYQJQYMR/s06BdF1lweh9fhKbQ3KoMUJ+OUQlbuxOKPL8otK3d+LR5hkYL/OEuAb6HY+fRWHTrcm08=
